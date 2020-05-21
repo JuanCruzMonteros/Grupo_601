@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="comisionesArray">
+        <item>1900</item>
+        <item>2300</item>
+        <item>3900</item>
+    </string-array>
+</resources>
