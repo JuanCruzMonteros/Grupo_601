@@ -2,15 +2,17 @@ package com.example.keepcalm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.os.Bundle;
 import android.widget.Toast;
-
+import android.content.Intent;
 import com.google.gson.Gson;
 
 import retrofit2.Call;
@@ -65,6 +67,10 @@ public class Registrar extends AppCompatActivity {
         eTxtEmail = findViewById(R.id.editTextEmail);
         eTxtPW = findViewById(R.id.editTextPassword);
 
+
+        eTxtGrupo.setMovementMethod(null);
+        eTxtDNI.setMovementMethod(null);
+
         eTxtApellido.setText("Chervin");
         eTxtNombre.setText("Facundo test2");
         eTxtDNI.setText("12345678");
@@ -86,18 +92,13 @@ public class Registrar extends AppCompatActivity {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-//                ambiente = "TEST";
-//                apellido = eTxtApellido.getText().toString();
-//                nombre = eTxtNombre.getText().toString();
-//                dni = Integer.parseInt(eTxtDNI.getText().toString());
-//                grupo = Integer.parseInt(eTxtGrupo.getText().toString());
-//                email = eTxtEmail.getText().toString();
-//                password = eTxtPW.getText().toString();
-//                comision = Integer.parseInt(spinner.getSelectedItem().toString());
-
-
-                createPost();
-
+                try {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(btnRegistrar.getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                register();
             }
         });
 
@@ -105,81 +106,88 @@ public class Registrar extends AppCompatActivity {
 
     }
 
-    private void createPost() {
-        Post post = new Post("DEV", "Facundo", "Chervin", 39762219, "facundo.chervin@gmail.com", "contraseña123",3900, 601);
-        Post postLogin = new Post("DEV", "", "", 1, "facundo.chervin@gmail.com", "contraseña123",1, 1);
-        String json = new Gson().toJson(post);
-        Log.v("JSOOON",json);
-//        Call<Post> call = ApiUtils.getAPIService().createPost(post);
-//        Log.v("call",call.toString());
-//        call.enqueue(new Callback<Post>() {
-//            @Override
-//            public void onResponse(Call<Post> call, Response<Post> response) {
-//
-//                if(!response.isSuccessful()){
-//
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
-//                        Log.v("Error Code",Integer.toString(response.code()));
-//                        Log.v("Error State",jsonObject.getString("state"));
-//                        Log.v("Error Env",jsonObject.getString("env"));
-//                        Log.v("Error Msg",jsonObject.getString("msg"));
-//                    } catch (IOException | JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    return;
-//                }
-//
-//                Post postResponse = response.body();
-//                Log.v("Code",Integer.toString(response.code()));
-//                Log.v("Env",postResponse.getEnv());
-//                Log.v("State",postResponse.getState());
-//                Log.v("User",postResponse.toString());
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Post> call, Throwable t) {
-//                Log.v("Code",t.getMessage());
-//                Log.v("Code",t.getMessage());
-//            }
-//        });
+    private void register() {
+        this.ambiente = "TEST";
+        this.apellido = eTxtApellido.getText().toString();
+        this.nombre = eTxtNombre.getText().toString();
+        this.dni = Integer.parseInt(eTxtDNI.getText().toString());
+        this.grupo = Integer.parseInt(eTxtGrupo.getText().toString());
+        this.email = eTxtEmail.getText().toString();
+        this.password = eTxtPW.getText().toString();
+        this.comision = Integer.parseInt(spinner.getSelectedItem().toString());
 
-        Call<Post> call = ApiUtils.getAPIService().loginUser(postLogin);
-        Log.v("call",call.toString());
-        call.enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
 
-                if(!response.isSuccessful()){
+        if(datosValidados()){
+            Post post = new Post(this.ambiente, this.nombre, this.apellido, this.dni, this.email, this.password,this.comision, this.grupo);
 
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                        Log.v("Error Code",Integer.toString(response.code()));
-                        Log.v("Error State",jsonObject.getString("state"));
-                        Log.v("Error Env",jsonObject.getString("env"));
-                        Log.v("Error Msg",jsonObject.getString("msg"));
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
+            Call<Post> call = ApiUtils.getAPIService().createPost(post);
+            Log.v("call",call.toString());
+            call.enqueue(new Callback<Post>() {
+                @Override
+                public void onResponse(Call<Post> call, Response<Post> response) {
+
+                    if(!response.isSuccessful()){
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                            Log.v("Error Code",Integer.toString(response.code()));
+                            Log.v("Error State",jsonObject.getString("state"));
+                            Log.v("Error Msg",jsonObject.getString("msg"));
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                        return;
                     }
-                    return;
+
+                    Post postResponse = response.body();
+                    Log.v("Code",Integer.toString(response.code()));
+                    Log.v("State",postResponse.getState());
+                    Log.v("User",postResponse.toString());
+
+                    Intent intent = new Intent(Registrar.this, MainPage.class);
+                    intent.putExtra("USER_TOKEN", postResponse.getToken());
+                    intent.putExtra("USER_NAME", post.getEmail());
+                    startActivity(intent);
+
                 }
 
-                Post postResponse = response.body();
-                Log.v("Code",Integer.toString(response.code()));
-                //Log.v("Env",postResponse.getEnv());
-                Log.v("State",postResponse.getState());
-                Log.v("User",postResponse.toString());
-                Log.v("token",postResponse.getToken());
+                @Override
+                public void onFailure(Call<Post> call, Throwable t) {
+                    Log.v("Code",t.getMessage());
+                }
+            });
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Error en los campos ingresados", Toast.LENGTH_SHORT).show();
+        }
 
 
-            }
+    }
 
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                Log.v("Code",t.getMessage());
-            }
-        });
-
+    private boolean datosValidados(){
+        if(!TextUtils.isEmpty(this.apellido) && !TextUtils.isEmpty(this.nombre) && !TextUtils.isEmpty(this.email)
+                && !TextUtils.isEmpty(this.password) && !TextUtils.isEmpty(this.dni.toString().trim())
+                && !TextUtils.isEmpty(this.grupo.toString().trim()) && this.password.length() >= 8){
+            return true;
+        }
+        if(this.password.length() < 8 || TextUtils.isEmpty(this.password)){
+            this.eTxtPW.setError("La contraseña no puede estar vacìa y debe tener al menos 8 caracteres.");
+        }
+        if(TextUtils.isEmpty(this.apellido)) {
+            this.eTxtApellido.setError("Este campo no puede estar vacio.");
+        }
+        if(TextUtils.isEmpty(this.nombre)){
+            this.eTxtNombre.setError("Este campo no puede estar vacio.");
+        }
+        if(TextUtils.isEmpty(this.email)) {
+            this.eTxtEmail.setError("Este campo no puede estar vacio.");
+        }
+        if(TextUtils.isEmpty(this.dni.toString().trim())){
+            this.eTxtDNI.setError("Este campo no puede estar vacio.");
+        }
+        if(TextUtils.isEmpty(this.grupo.toString().trim())) {
+            this.eTxtGrupo.setError("Este campo no puede estar vacio.");
+        }
+        return false;
     }
 }
