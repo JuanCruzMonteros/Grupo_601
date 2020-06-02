@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.keepcalm"
     android:targetSandboxVersion="1">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
     <application

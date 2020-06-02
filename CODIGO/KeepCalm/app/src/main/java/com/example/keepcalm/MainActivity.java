@@ -66,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login() {
+
+        // HARCODEADO
+        this.userInput.setText("facundo.chervin@gmail.com");
+        this.passwordInput.setText("contraseña123");
+
         String userInputVal = userInput.getText().toString();
         String passwordInputVal = passwordInput.getText().toString();
 

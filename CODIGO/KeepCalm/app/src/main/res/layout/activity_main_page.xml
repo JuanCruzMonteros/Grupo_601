@@ -6,15 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".MainPage">
 
-    <TextView
-        android:id="@+id/textViewTest"
-        android:layout_width="294dp"
-        android:layout_height="297dp"
+
+    <DigitalClock
+        android:id="@+id/digitalClock"
+        android:layout_width="286dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="Bienvenido!"
+        android:padding="5dp"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDia" />
+
+    <TextView
+        android:id="@+id/textViewDia"
+        android:layout_width="286dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="64dp"
+        android:gravity="center"
+        android:text=""
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="286dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/digitalClock" />
+
+    <TextView
+        android:id="@+id/textViewCountShakes"
+        android:layout_width="286dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginBottom="60dp"
+        android:gravity="center"
+        android:text=""
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/buttonOK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer"
+        app:layout_constraintVertical_bias="0.346" />
+
+    <Button
+        android:id="@+id/buttonHistorial"
+        android:layout_width="234dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="48dp"
+        android:text="Historial"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonOK"
+        android:layout_width="234dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="56dp"
+        android:background="@android:color/holo_green_light"
+        android:text="Todo esta OK!"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/buttonHistorial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
