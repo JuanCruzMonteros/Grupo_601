@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login() {
-    /*
-            // HARCODEADO
-            this.userInput.setText("facundo.chervintest@gmail.com");
+        // HARCODEADO
+            this.userInput.setText("facundo.chervin@gmail.com");
             this.passwordInput.setText("contraseña123");
+ /*
 
             this.userInput.setText("juancruzreylaboral@gmail.com");
             this.passwordInput.setText("12345678");

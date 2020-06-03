@@ -60,6 +60,12 @@ public class Get_Gps extends AppCompatActivity {
 
         //inicializo fused
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(Get_Gps.this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+            Log.v("Entro","al if");
+        }
         btn_historial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,12 +100,14 @@ public class Get_Gps extends AppCompatActivity {
         toast.show();
     }
     private void getLocation() {
-        getConectionState();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(Get_Gps.this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+            Toast toast = Toast.makeText(this, "Debe permitir que la aplicación acceda a la ubicación del dispositivo" , Toast.LENGTH_SHORT);
             return;
         }
+        //getConectionState();
+
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
