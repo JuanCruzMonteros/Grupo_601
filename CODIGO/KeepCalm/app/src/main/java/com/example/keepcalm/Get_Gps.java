@@ -201,7 +201,7 @@ public class Get_Gps extends AppCompatActivity {
 
     public static final String PREFS_KEY = "sharedPref";
     public void savePreference(Context context, History history) {
-         int indice;
+        int indice;
         SharedPreferences preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
         indice = preferences.getInt("indice", 0);
 

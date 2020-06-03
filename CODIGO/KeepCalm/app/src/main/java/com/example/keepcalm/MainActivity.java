@@ -11,11 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import com.google.gson.Gson;
-import android.view.Gravity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +21,7 @@ import java.io.IOException;
 
 import data.model.Post;
 import data.remote.ApiUtils;
+import data.remote.SharedPref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,14 +30,24 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText userInput;
     private EditText passwordInput;
+    private Switch switchRecordarme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         this.userInput = findViewById(R.id.userInput);
         this.passwordInput = findViewById(R.id.passwordInput);
+        this.switchRecordarme = findViewById(R.id.switchRecordarme);
+
+        SharedPref sp = new SharedPref(getBaseContext());
+        if(sp.getUser() != ""){
+            this.userInput.setText(sp.getUser());
+            this.passwordInput.setText(sp.getPass());
+            this.switchRecordarme.setChecked(true);
+        }
 
         Button btnRegistrar = findViewById(R.id.buttonRegistrarse);
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
@@ -66,15 +74,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login() {
+    /*
+            // HARCODEADO
+            this.userInput.setText("facundo.chervintest@gmail.com");
+            this.passwordInput.setText("contraseña123");
 
-        // HARCODEADO
-        this.userInput.setText("facundo.chervin@gmail.com");
-        this.passwordInput.setText("contraseña123");
+            this.userInput.setText("juancruzreylaboral@gmail.com");
+            this.passwordInput.setText("12345678");
+    */
 
         String userInputVal = userInput.getText().toString();
         String passwordInputVal = passwordInput.getText().toString();
 
         if(datosValidados(userInputVal,passwordInputVal)) {
+
             Post postLogin = new Post("DEV", "", "", 1, userInputVal, passwordInputVal,1, 1);
 
             Call<Post> call = ApiUtils.getAPIService().loginUser(postLogin);
@@ -84,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<Post> call, Response<Post> response) {
 
                     if(!response.isSuccessful()){
-
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
                             Log.v("Error Code",Integer.toString(response.code()));
@@ -97,6 +109,15 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         return;
+                    }
+
+                    //Si los datos son validos, recordar usuario y selecciono la opcion:
+                    SharedPref sp = new SharedPref(getApplicationContext());
+                    if(switchRecordarme.isChecked()){
+                        sp.saveUser(    userInput.getText().toString(),
+                                passwordInput.getText().toString());
+                    }else{
+                        sp.deleteUser();
                     }
 
                     Post postResponse = response.body();

@@ -90,6 +90,7 @@ public class MainPage extends AppCompatActivity {
         buttonHistorial.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainPage.this, SharedHistory.class);
+                startActivity(intent);
             }
         });
         buttonOK.setOnClickListener(new View.OnClickListener() {
