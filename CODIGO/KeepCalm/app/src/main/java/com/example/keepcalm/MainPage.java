@@ -87,7 +87,11 @@ public class MainPage extends AppCompatActivity {
         buttonOK = findViewById(R.id.buttonOK);
         buttonHistorial = findViewById(R.id.buttonHistorial);
 
-
+        buttonHistorial.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainPage.this, SharedHistory.class);
+            }
+        });
         buttonOK.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
