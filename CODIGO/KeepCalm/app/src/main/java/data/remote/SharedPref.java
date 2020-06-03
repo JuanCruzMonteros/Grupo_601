@@ -24,7 +24,7 @@ public class SharedPref {
         indice = preferences.getInt("indice", 0);
 
         if(indice > 3 ){
-            String algo = getPreference();
+            String algo = getHistoryPreference();
             Log.i("mayor que 3", algo);
         }
 
@@ -54,9 +54,11 @@ public class SharedPref {
         editor.commit();
     }*/
 
-    public String getPreference() {
+    public String getHistoryPreference() {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
         int indice = preferences.getInt("indice", 0);
+        if(indice == 0)
+            return "";
         String historyList = preferences.getString("historyList", "");
         return historyList;
     }
@@ -72,6 +74,7 @@ public class SharedPref {
     }
 
     public void saveUser(String mail, String password) {
+        deleteUser();
         SharedPreferences preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
         SharedPreferences.Editor editor;
         editor = preferences.edit();
