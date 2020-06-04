@@ -22,7 +22,7 @@
 - [x] Pruebas de respuesta fluida.
 - [x] Liberación de recursos.
 - [x] Cambios de estado.
-- [ ] Errores de conexión
+- [x] Errores de conexión
 
 
 ## Otros
