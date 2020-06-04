@@ -70,13 +70,13 @@ public class Registrar extends AppCompatActivity {
 
         eTxtGrupo.setMovementMethod(null);
         eTxtDNI.setMovementMethod(null);
-
+/*
         eTxtApellido.setText("Chervin");
         eTxtNombre.setText("Facundo test2");
         eTxtDNI.setText("12345678");
         eTxtGrupo.setText("602");
         eTxtEmail.setText("facundo.chervintest@gmail.com");
-        eTxtPW.setText("12345678");
+        eTxtPW.setText("12345678");*/
 
 
         // Create an ArrayAdapter using the string array and a default spinner layout
