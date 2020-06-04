@@ -40,15 +40,6 @@ public class SharedHistory  extends AppCompatActivity {
 
         if(historias == "")
             return;
-        //historias.replaceAll("}", "}\n");
         txtHistorias.setText(historias);
-        //String partes[] = historias.split("History");
-
-        /*if(partes.length > 0){
-
-
-        }*/
-
-        Log.i("historias: " , historias);
     }
 }
