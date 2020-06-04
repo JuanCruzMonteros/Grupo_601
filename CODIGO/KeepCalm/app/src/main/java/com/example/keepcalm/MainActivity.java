@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         this.switchRecordarme = findViewById(R.id.switchRecordarme);
 
         SharedPref sp = new SharedPref(getBaseContext());
-        if(sp.getUser() != ""){
+        if (sp.getUser() != "") {
             this.userInput.setText(sp.getUser());
             this.passwordInput.setText(sp.getPass());
             this.switchRecordarme.setChecked(true);
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,Registrar.class));
+                startActivity(new Intent(MainActivity.this, Registrar.class));
             }
         });
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 try {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(btnLogin.getWindowToken(), 0);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -73,37 +73,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void login() {
-        /*
-        // HARCODEADO
-            this.userInput.setText("facundo.chervin@gmail.com");
-            this.passwordInput.setText("contraseña123");
-
-
-            this.userInput.setText("juancruzreylaboral@gmail.com");
-            this.passwordInput.setText("12345678");
-*/
-
         String userInputVal = userInput.getText().toString();
         String passwordInputVal = passwordInput.getText().toString();
 
-        if(datosValidados(userInputVal,passwordInputVal)) {
+        if (datosValidados(userInputVal, passwordInputVal)) {
 
-            Post postLogin = new Post("DEV", "", "", 1, userInputVal, passwordInputVal,1, 1);
+            Post postLogin = new Post("DEV", "", "", 1, userInputVal, passwordInputVal, 1, 1);
 
             Call<Post> call = ApiUtils.getAPIService().loginUser(postLogin);
-            Log.v("call",call.toString());
             call.enqueue(new Callback<Post>() {
                 @Override
                 public void onResponse(Call<Post> call, Response<Post> response) {
 
-                    if(!response.isSuccessful()){
+                    if (!response.isSuccessful()) {
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            Log.v("Error Code",Integer.toString(response.code()));
-                            Log.v("Error State",jsonObject.getString("state"));
-                            Log.v("Error Msg",jsonObject.getString("msg"));
-                            if(jsonObject.getString("msg").equals("Error de autenticación")){
+                            Log.v("Error Code", Integer.toString(response.code()));
+                            Log.v("Error State", jsonObject.getString("state"));
+                            Log.v("Error Msg", jsonObject.getString("msg"));
+                            if (jsonObject.getString("msg").equals("Error de autenticación")) {
                                 Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show();
                             }
                         } catch (IOException | JSONException e) {
@@ -114,18 +104,18 @@ public class MainActivity extends AppCompatActivity {
 
                     //Si los datos son validos, recordar usuario y selecciono la opcion:
                     SharedPref sp = new SharedPref(getApplicationContext());
-                    if(switchRecordarme.isChecked()){
-                        sp.saveUser(    userInput.getText().toString(),
+                    if (switchRecordarme.isChecked()) {
+                        sp.saveUser(userInput.getText().toString(),
                                 passwordInput.getText().toString());
-                    }else{
+                    } else {
                         sp.deleteUser();
                     }
 
                     Post postResponse = response.body();
-                    Log.v("Code",Integer.toString(response.code()));
-                    Log.v("State",postResponse.getState());
-                    Log.v("User",postResponse.toString());
-                    Log.v("token",postResponse.getToken());
+                    Log.v("Code", Integer.toString(response.code()));
+                    Log.v("State", postResponse.getState());
+                    Log.v("User", postResponse.toString());
+                    Log.v("token", postResponse.getToken());
                     Intent intent = new Intent(MainActivity.this, MainPage.class);
                     intent.putExtra("USER_TOKEN", postResponse.getToken());
                     intent.putExtra("USER_NAME", userInputVal);
@@ -134,24 +124,23 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Post> call, Throwable t) {
-                    Log.v("Code",t.getMessage());
+                    Log.v("Code", t.getMessage());
                 }
             });
-        }
-        else{
+        } else {
             Toast.makeText(getApplicationContext(), "Error en los campos ingresados", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private boolean datosValidados(String userInputVal, String passwordInputVal){
-        if(!TextUtils.isEmpty(userInputVal) && !TextUtils.isEmpty(passwordInputVal)){
+    private boolean datosValidados(String userInputVal, String passwordInputVal) {
+        if (!TextUtils.isEmpty(userInputVal) && !TextUtils.isEmpty(passwordInputVal)) {
             return true;
         }
-        if(TextUtils.isEmpty(userInputVal)) {
+        if (TextUtils.isEmpty(userInputVal)) {
             this.userInput.setError("Usuario Invalido");
         }
-        if(TextUtils.isEmpty(passwordInputVal)){
+        if (TextUtils.isEmpty(passwordInputVal)) {
             this.passwordInput.setError("Contraseña Invalida");
         }
         return false;
