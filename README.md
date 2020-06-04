@@ -11,8 +11,8 @@
     - [x] Tiempo sucedido (timer) desde que arranco el ataque.
 
 ## Eventos
-- [ ] Validar conexión a internet
-- [ ] Logear evento de conexión a internet (Cuando se pierde que logee en el servidor).)
+- [x] Validar conexión a internet
+- [x] Logear evento de conexión a internet (Cuando se pierde que logee en el servidor).)
     (Esto al medio dia lo hacemos en background en dos minutos, falta solo agregarlo)
 - [x] Logear evento de GPS.
 - [x] Logear evento de Shake.
@@ -26,6 +26,6 @@
 
 
 ## Otros
-- [ ] Implementar ejecución en background.
+- [x] Implementar ejecución en background.
 
 
