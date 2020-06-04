@@ -31,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Get_Gps"  android:screenOrientation="portrait" />
         <activity android:name=".Registrar"  android:screenOrientation="portrait" />
         <activity android:name=".MainPage" android:screenOrientation="portrait" />
         <activity android:name=".SharedHistory" android:screenOrientation="portrait"/>
