@@ -23,18 +23,19 @@ public class SharedPref {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
         indice = preferences.getInt("indice", 0);
 
+        /*
         if(indice > 3 ){
             String algo = getHistoryPreference();
             Log.i("mayor que 3", algo);
         }
-
+*/
 
         String historyList = preferences.getString("historyList", "");
 
         SharedPreferences.Editor editor;
         editor = preferences.edit();
 
-        editor.putString("historyList", historyList + (indice+1) + "-" + history);
+        editor.putString("historyList", historyList + (indice+1) + "-" + history + "\n");
         editor.putInt("indice", (indice+1));
         editor.commit();
     }
@@ -85,7 +86,6 @@ public class SharedPref {
         Log.i("User guardado: ", mail);
         Log.i("pass guardado: ", password);
     }
-
     public void deleteUser() {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
         SharedPreferences.Editor editor;
@@ -96,7 +96,6 @@ public class SharedPref {
         editor.commit();
         Log.i("User y pass borrado: ", " ");
     }
-
     public String getUser() {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
         String user = preferences.getString("user", "");
