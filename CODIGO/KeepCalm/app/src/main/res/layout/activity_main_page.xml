@@ -25,7 +25,20 @@
         android:id="@+id/textViewDia"
         android:layout_width="286dp"
         android:layout_height="45dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text=""
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
+
+    <TextView
+        android:id="@+id/textViewUserName"
+        android:layout_width="286dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="44dp"
         android:gravity="center"
         android:text=""
         android:textAlignment="center"
@@ -50,25 +63,23 @@
         android:id="@+id/textViewCountShakes"
         android:layout_width="286dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="28dp"
         android:gravity="center"
         android:text=""
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/buttonOK"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGPS" />
 
     <TextView
         android:id="@+id/textViewGPS"
         android:layout_width="286dp"
         android:layout_height="45dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="36dp"
         android:gravity="center"
         android:text=""
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textViewCountShakes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,18 +94,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCountShakes" />
 
-    <Button
-        android:id="@+id/buttonOK"
-        android:layout_width="234dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="56dp"
-        android:background="@android:color/holo_green_light"
-        android:text="Todo esta OK!"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/buttonHistorial"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

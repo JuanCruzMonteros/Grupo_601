@@ -67,18 +67,15 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 public class MainPage extends AppCompatActivity {
 
     private TextView txtViewDia;
-    private TextView txtViewHora;
     private Chronometer chronometer;
     private TextView txtGps;
     private TextView txtViewTestNofShakes;
-    private Button buttonOK;
     private Button buttonHistorial;
-    private Integer flag = 0;
-    private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
-    private LocationRequest mLocationRequest;
+    private TextView txtUserName;
 
     private Boolean flagPrimerShake = true;
+
+    private static final String tag = "MainPageActivity";
 
     private double latitude;
     private double longitude;
@@ -100,6 +97,8 @@ public class MainPage extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        buttonHistorial = findViewById(R.id.buttonHistorial);
+        buttonHistorial.setEnabled(true);
         mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
         registerReceiver(fechaListener, fechaFilter);
     }
@@ -122,15 +121,15 @@ public class MainPage extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
 
 
-//        startLocationUpdates();
 
         Bundle extras = getIntent().getExtras();
-
+        txtUserName = findViewById(R.id.textViewUserName);
         if (extras != null) {
             this.token = extras.getString("USER_TOKEN");
             this.userName = extras.getString("USER_NAME");
+            txtUserName.setText("User: " + this.userName);
         } else {
-            //mostrar error!!
+            Log.v(tag,"Error al obtener los datos del usuario.");
         }
         postServerEvent("Login", "ACTIVO", "El usuario ingresa en la aplicación.");
 
@@ -147,7 +146,6 @@ public class MainPage extends AppCompatActivity {
         txtViewDia = findViewById(R.id.textViewDia);
         chronometer = findViewById(R.id.chronometer);
         txtViewTestNofShakes = findViewById(R.id.textViewCountShakes);
-        buttonOK = findViewById(R.id.buttonOK);
         buttonHistorial = findViewById(R.id.buttonHistorial);
 
 
@@ -159,21 +157,11 @@ public class MainPage extends AppCompatActivity {
 
         buttonHistorial.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                buttonHistorial.setEnabled(false);
                 Intent intent = new Intent(MainPage.this, SharedHistory.class);
                 startActivity(intent);
             }
         });
-
-//        buttonOK.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                flag = 1;
-//                getLastLocation();
-//                flag = 0;
-//                //Log.v("Address",String.valueOf(latitude));
-//                //chronometer.stop();
-//            }
-//        });
-
 
         fechaListener = new BroadcastReceiver() {
             @Override
@@ -195,11 +183,10 @@ public class MainPage extends AppCompatActivity {
             public void onShake(int count) {
                 countShakes++;
                 if (flagPrimerShake) {
+                    chronometer.setBase(SystemClock.elapsedRealtime());
                     chronometer.start();
                     getLocation();
-                    //txtGps.setText(address);
-                    postServerEvent("Shake", "ACTIVO", "El usuario comienza a agitar el celular - El usuario registra el inicio de un ataque de ...");
-                    //Logear en el servidor el evento de inicio de shake con la ubicación del dispositivo
+                    postServerEvent("Shake", "ACTIVO", "El usuario comienza a agitar el celular - El usuario registra el inicio de un ataque de migraña");
                     flagPrimerShake = false;
                 }
 
@@ -257,7 +244,6 @@ public class MainPage extends AppCompatActivity {
     private void postServerEvent(String type_event, String state, String description) {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy - HH:mm:ss - ");
         String date = df.format(Calendar.getInstance().getTime());
-
         EventPost eventPost = new EventPost(this.token, "TEST", type_event, state, date + description);
 
         Call<EventPost> call = ApiUtils.getAPIService().registerEvent(this.token, eventPost);
@@ -302,7 +288,6 @@ public class MainPage extends AppCompatActivity {
             Toast.makeText(this, "Debe permitir que la aplicación acceda a la ubicación del dispositivo", Toast.LENGTH_SHORT);
             return;
         }
-        //getConectionState();
 
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
@@ -359,112 +344,5 @@ public class MainPage extends AppCompatActivity {
         sp.savePreference(history);
 
     }
-//    public void getLastLocation() {
-//        // Get last known recent location using new Google Play Services SDK (v11+)
-//        FusedLocationProviderClient locationClient = getFusedLocationProviderClient(this);
-//        locationClient.getLastLocation()
-//                .addOnSuccessListener(new OnSuccessListener<Location>() {
-//                    @Override
-//                    public void onSuccess(Location location) {
-//                        // GPS location can be null if GPS is switched off
-//                        if (location != null) {
-//                            onLocationChanged(location);
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d("MapDemoActivity", "Error trying to get last GPS location");
-//                        e.printStackTrace();
-//                    }
-//                });
-//    }
-//
-//    public void onLocationChanged(Location location) {
-//        //ESTO ES UNA ASQUEROSIDAD
-//        Boolean flagPrimer = flagPrimerShake;
-//        //ACA TERMINA LA ASQUEROSIDAD
-//
-//        // New location has now been determined
-//        String msg = "Updated Location: " +
-//                Double.toString(location.getLatitude()) + "," +
-//                Double.toString(location.getLongitude());
-//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-//        // You can now create a LatLng Object for use with maps
-//        this.latitude = location.getLatitude();
-//        this.longitude = location.getLongitude();
-//        formatLocation();
-//        txtGps.setText(address);
-//        if (!flagPrimer) {
-//            //Termina el evento
-//            postServerEvent("GPS - Posicion Final del ataque de ...", "ACTIVO", address);
-//        } else {
-//            //Inicializa el evento
-//            postServerEvent("GPS - Posicion Inicial del ataque de ...", "ACTIVO", address);
-//        }
-//
-//    }
-//
-//    protected void startLocationUpdates() {
-//
-//        // Create the location request to start receiving updates
-//        mLocationRequest = new LocationRequest();
-//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//        mLocationRequest.setInterval(UPDATE_INTERVAL);
-//        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-//
-//        // Create LocationSettingsRequest object using location request
-//        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-//        builder.addLocationRequest(mLocationRequest);
-//        LocationSettingsRequest locationSettingsRequest = builder.build();
-//
-//        // Check whether location settings are satisfied
-//        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
-//        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
-//        settingsClient.checkLocationSettings(locationSettingsRequest);
-//
-//        getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
-//                    @Override
-//                    public void onLocationResult(LocationResult locationResult) {
-//                        if (flag == 1) {
-//                            onLocationChanged(locationResult.getLastLocation());
-//                        }
-//                    }
-//                },
-//                Looper.myLooper());
-//    }
-//
-//    private void formatLocation() {
-//        try {
-//            Geocoder geocoder = new Geocoder(MainPage.this, Locale.getDefault());
-//            List<Address> direcciones;
-//            direcciones = geocoder.getFromLocation(this.latitude, this.longitude, 1);
-//            if (direcciones != null && direcciones.size() > 0) {
-//                this.address = direcciones.get(0).getAddressLine(0);
-//            } else {
-//                //Error handler
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    //FIJARSE SI SE PUEDE IMPLEMENTAR CON FUNCIONES
-//    private boolean checkPermissions() {
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            return true;
-//        } else {
-//            requestPermissions();
-//            return false;
-//        }
-//    }
-//
-//    private void requestPermissions() {
-//        ActivityCompat.requestPermissions(this,
-//                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                44);
-//    }
 }
 

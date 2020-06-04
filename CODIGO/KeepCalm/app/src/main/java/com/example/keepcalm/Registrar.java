@@ -13,13 +13,11 @@ import android.widget.ArrayAdapter;
 import android.os.Bundle;
 import android.widget.Toast;
 import android.content.Intent;
-import com.google.gson.Gson;
 
 import retrofit2.Call;
 
 import data.remote.APIService;
 import data.remote.ApiUtils;
-import data.User;
 import data.model.Post;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,13 +51,20 @@ public class Registrar extends AppCompatActivity {
     private APIService mAPIService;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        btnRegistrar = findViewById(R.id.buttonSinCuentaRegistrarse);
+        btnRegistrar.setEnabled(true);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
 
 
         spinner = findViewById(R.id.spinnerComision);
-        btnRegistrar = findViewById(R.id.buttonRegistrarse);
+        btnRegistrar = findViewById(R.id.buttonSinCuentaRegistrarse);
         eTxtApellido = findViewById(R.id.editTextApellido);
         eTxtNombre = findViewById(R.id.editTextNombre);
         eTxtDNI = findViewById(R.id.editTextDNI);
@@ -70,14 +75,6 @@ public class Registrar extends AppCompatActivity {
 
         eTxtGrupo.setMovementMethod(null);
         eTxtDNI.setMovementMethod(null);
-/*
-        eTxtApellido.setText("Chervin");
-        eTxtNombre.setText("Facundo test2");
-        eTxtDNI.setText("12345678");
-        eTxtGrupo.setText("602");
-        eTxtEmail.setText("facundo.chervintest@gmail.com");
-        eTxtPW.setText("12345678");*/
-
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -93,6 +90,7 @@ public class Registrar extends AppCompatActivity {
 
             public void onClick(View v) {
                 try {
+                    btnRegistrar.setEnabled(false);
                     InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(btnRegistrar.getWindowToken(), 0);
                 } catch (Exception e) {

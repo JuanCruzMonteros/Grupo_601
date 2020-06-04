@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Bienvenido a KeepCalm, una app para registrar los sucesos de ataques de ansiedad/pánico que pueden surgirte."
+        android:text="Bienvenido a KeepCalm, una app para registrar los sucesos de ataques de migraña que pueden surgirte."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +176,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewPassword" />
 
     <Button
-        android:id="@+id/buttonRegistrarse"
+        android:id="@+id/buttonSinCuentaRegistrarse"
         android:layout_width="125dp"
         android:layout_height="51dp"
         android:layout_marginTop="24dp"

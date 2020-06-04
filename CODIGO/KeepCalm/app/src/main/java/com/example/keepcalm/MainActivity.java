@@ -34,10 +34,20 @@ public class MainActivity extends AppCompatActivity {
 
     Handler mHandler = new Handler();
     boolean isRunning = true;
-
     private EditText userInput;
     private EditText passwordInput;
     private Switch switchRecordarme;
+    private Button btnLogin;
+    private Button btnRegistrar;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        btnLogin = findViewById(R.id.buttonLogin);
+        btnLogin.setEnabled(true);
+        btnRegistrar = findViewById(R.id.buttonSinCuentaRegistrarse);
+        btnRegistrar.setEnabled(true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +89,20 @@ public class MainActivity extends AppCompatActivity {
             this.switchRecordarme.setChecked(true);
         }
 
-        Button btnRegistrar = findViewById(R.id.buttonRegistrarse);
+        btnRegistrar = findViewById(R.id.buttonSinCuentaRegistrarse);
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                btnRegistrar.setEnabled(false);
                 startActivity(new Intent(MainActivity.this, Registrar.class));
             }
         });
 
-        Button btnLogin = findViewById(R.id.buttonLogin);
+        btnLogin = findViewById(R.id.buttonLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                btnLogin.setEnabled(false);
                 try {
                     InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(btnLogin.getWindowToken(), 0);
