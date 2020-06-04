@@ -6,16 +6,15 @@
 - [x] Crear pantalla de Registrar.
 - [ ] Crear pantalla de Eventos capturados (tabla).(Faltaria cargarlos en la tabla)
     - [ ] Evento - Hora - Sensor utilizado - Estado sensor.
-- [ ] Crear pantalla ataque en curso.
-    - [ ] Boton de "Evento terminado".
-    - [ ] Tiempo sucedido (timer) desde que arranco el ataque.
-- [ ] Crear pantalla de selección de ataque de ansiedad/pánico.
+- [x] Crear pantalla ataque en curso.
+    - [x] Boton de "Evento terminado".
+    - [x] Tiempo sucedido (timer) desde que arranco el ataque.
 
 ## Eventos
 - [ ] Validar conexión a internet
 - [ ] Logear evento de conexión a internet (Cuando se pierde que logee en el servidor).)
     (Esto al medio dia lo hacemos en background en dos minutos, falta solo agregarlo)
-- [ ] Logear evento de GPS.
+- [x] Logear evento de GPS.
 - [x] Logear evento de Shake.
 - [x] Guardar eventos en SharedPreferences.
 
