@@ -2,6 +2,10 @@ package com.example.keepcalm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
 import android.view.inputmethod.InputMethodManager;
 
 import android.text.TextUtils;
@@ -28,6 +32,9 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    Handler mHandler = new Handler();
+    boolean isRunning = true;
+
     private EditText userInput;
     private EditText passwordInput;
     private Switch switchRecordarme;
@@ -36,6 +43,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                while (isRunning) {
+                    try {
+                        Thread.sleep(10000);
+                        mHandler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                // Write your code here to update the UI.
+                                displayData();
+                            }
+                        });
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                }
+            }
+        }).start();
 
 
         this.userInput = findViewById(R.id.userInput);
@@ -146,6 +176,34 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
+    private void getConectionState(){
+        //test de validacion de conexion a internet
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        Toast toast = Toast.makeText(this, "Estado de coneccion " + isConnected , Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    private void displayData() {
+        ConnectivityManager cn=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nf=cn.getActiveNetworkInfo();
+        if(nf != null && nf.isConnected()==true )
+        {
+            Toast.makeText(this, "Internet disponible", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(this, "Internet No Disponible", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 
 
