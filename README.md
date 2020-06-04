@@ -4,8 +4,8 @@
 ## Pantallas
 - [x] Crear pantalla de Login.
 - [x] Crear pantalla de Registrar.
-- [ ] Crear pantalla de Eventos capturados (tabla).(Faltaria cargarlos en la tabla)
-    - [ ] Evento - Hora - Sensor utilizado - Estado sensor.
+- [x] Crear pantalla de Eventos capturados (tabla).(Faltaria cargarlos en la tabla)
+    - [x] Evento - Hora - Sensor utilizado - Estado sensor.
 - [x] Crear pantalla ataque en curso.
     - [x] Boton de "Evento terminado".
     - [x] Tiempo sucedido (timer) desde que arranco el ataque.
