@@ -20,9 +20,9 @@
 - [x] Guardar eventos en SharedPreferences.
 
 ## Performance
-- [ ] Pruebas de respuesta fluida.
-- [ ] Liberación de recursos.
-- [ ] Cambios de estado.
+- [x] Pruebas de respuesta fluida.
+- [x] Liberación de recursos.
+- [x] Cambios de estado.
 - [ ] Errores de conexión
 
 
