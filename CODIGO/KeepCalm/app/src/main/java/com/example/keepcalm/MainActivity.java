@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void login() {
+
         String userInputVal = userInput.getText().toString();
         String passwordInputVal = passwordInput.getText().toString();
 

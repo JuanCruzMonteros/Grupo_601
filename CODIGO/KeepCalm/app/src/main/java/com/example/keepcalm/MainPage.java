@@ -55,7 +55,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import data.model.EventPost;
+import data.model.History;
 import data.remote.ApiUtils;
+import data.remote.SharedPref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -242,6 +244,9 @@ public class MainPage extends AppCompatActivity {
                         chronometer.setBase(SystemClock.elapsedRealtime());
                     }
                 });
+
+                saveLocationSharedPref(countShakes);
+
                 alert.show();
             }
         });
@@ -336,6 +341,24 @@ public class MainPage extends AppCompatActivity {
         });
     }
 
+    public void saveLocationSharedPref(int CountShakes){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
+        // Divido Fecha  entre yyyy-MM-dd y HH:mm:ss
+        String[] parts = formattedDate.split(" ");
+
+        History history = new History( parts[0].toString(),
+                parts[1].toString(),
+                CountShakes,
+                this.address,
+                Double.parseDouble(String.valueOf(this.latitude)),
+                Double.parseDouble(String.valueOf(this.longitude)));
+
+        SharedPref sp = new SharedPref(MainPage.this);
+        sp.savePreference(history);
+
+    }
 //    public void getLastLocation() {
 //        // Get last known recent location using new Google Play Services SDK (v11+)
 //        FusedLocationProviderClient locationClient = getFusedLocationProviderClient(this);
