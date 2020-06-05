@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.userInput = findViewById(R.id.userInput);
         this.passwordInput = findViewById(R.id.passwordInput);
+
         this.switchRecordarme = findViewById(R.id.switchRecordarme);
 
         SharedPref sp = new SharedPref(getBaseContext());
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                btnLogin.setEnabled(false);
+
                 try {
                     InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(btnLogin.getWindowToken(), 0);
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         sp.deleteUser();
                     }
-
+                    btnLogin.setEnabled(false);
                     Post postResponse = response.body();
                     Log.v("Code", Integer.toString(response.code()));
                     Log.v("State", postResponse.getState());

@@ -2,6 +2,8 @@ package com.example.keepcalm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -90,13 +93,13 @@ public class Registrar extends AppCompatActivity {
 
             public void onClick(View v) {
                 try {
-                    btnRegistrar.setEnabled(false);
                     InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(btnRegistrar.getWindowToken(), 0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 register();
+
             }
         });
 
@@ -105,7 +108,7 @@ public class Registrar extends AppCompatActivity {
     }
 
     private void register() {
-        this.ambiente = "TEST";
+        this.ambiente = "DEV";
         this.apellido = eTxtApellido.getText().toString();
         this.nombre = eTxtNombre.getText().toString();
         this.dni = Integer.parseInt(eTxtDNI.getText().toString());
@@ -136,6 +139,12 @@ public class Registrar extends AppCompatActivity {
                         }
                         return;
                     }
+                    btnRegistrar.setEnabled(false);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Registro Realizado con éxito!", Toast.LENGTH_SHORT);
+                    View view = toast.getView();
+                    view.getBackground().setColorFilter(Color.parseColor("#66CD00"), PorterDuff.Mode.SRC_IN);
+
+                    toast.show();
 
                     Post postResponse = response.body();
                     Log.v("Code",Integer.toString(response.code()));

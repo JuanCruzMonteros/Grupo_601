@@ -10,6 +10,7 @@
         android:id="@+id/userInput"
         android:layout_width="313dp"
         android:layout_height="53dp"
+        android:theme="@style/MyEditTextTheme"
         android:textAlignment="center"
         android:ems="10"
         android:inputType="textEmailAddress"
@@ -32,9 +33,11 @@
         android:layout_width="311dp"
         android:layout_height="52dp"
         android:ems="10"
-        android:textAlignment="center"
         android:inputType="textPassword"
+        android:theme="@style/MyEditTextTheme"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordViewText" />
 
@@ -76,12 +79,9 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
         android:layout_marginTop="44dp"
         android:text="¿No tenes una cuenta? Registrate."
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 

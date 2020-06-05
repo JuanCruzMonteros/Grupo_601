@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 
@@ -208,7 +209,7 @@ public class MainPage extends AppCompatActivity {
                 chronometer.stop();
 
                 alert.setTitle("Keep Calm");
-                alert.setMessage("Su ataque de migraña ha terminado?");
+                alert.setMessage("¿Su ataque de migraña ha terminado?");
                 alert.setPositiveButton("¡Me encuentro bien!", new DialogInterface.OnClickListener() {
 
                     @Override
@@ -233,8 +234,10 @@ public class MainPage extends AppCompatActivity {
                 });
 
                 saveLocationSharedPref(countShakes);
-
-                alert.show();
+                AlertDialog dialog = alert.create();
+                dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#66CD00"));
             }
         });
         mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
@@ -244,7 +247,7 @@ public class MainPage extends AppCompatActivity {
     private void postServerEvent(String type_event, String state, String description) {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy - HH:mm:ss - ");
         String date = df.format(Calendar.getInstance().getTime());
-        EventPost eventPost = new EventPost(this.token, "TEST", type_event, state, date + description);
+        EventPost eventPost = new EventPost(this.token, "DEV", type_event, state, date + description);
 
         Call<EventPost> call = ApiUtils.getAPIService().registerEvent(this.token, eventPost);
         call.enqueue(new Callback<EventPost>() {

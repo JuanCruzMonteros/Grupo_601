@@ -2,24 +2,24 @@ package data.model;
 
 public class Event {
 
-    private Integer group;
+    private Integer dni;
     private String type_events;
     private String state;
     private String description;
 
-    public Event(Integer group, String type_events, String state, String description) {
-        this.group = group;
+    public Event(Integer dni, String type_events, String state, String description) {
+        this.dni = dni;
         this.type_events = type_events;
         this.state = state;
         this.description = description;
     }
 
-    public Integer getGroup() {
-        return group;
+    public Integer getDni() {
+        return dni;
     }
 
-    public void setGroup(Integer group) {
-        this.group = group;
+    public void setDni(Integer dni) {
+        this.dni = dni;
     }
 
     public String getType_events() {
@@ -49,7 +49,7 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "group='" + group + '\'' +
+                "dni='" + dni + '\'' +
                 ", type_events='" + type_events + '\'' +
                 ", state='" + state + '\'' +
                 ", description='" + description + '\'' +
